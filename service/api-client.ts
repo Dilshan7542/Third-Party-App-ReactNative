@@ -2,7 +2,7 @@ import axios, {CanceledError} from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const apiClient = axios.create({
-  baseURL: "http://192.168.20.239:7272/api",
+  baseURL: " https://epictechdev.com:50422/api",
 });
 
 export interface AppResponse<T> {
