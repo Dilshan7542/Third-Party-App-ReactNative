@@ -3,6 +3,8 @@ import {Alert, Button, StyleSheet, Text, TextInput, View} from "react-native";
 import {IUser, userLogin} from "@/service/user-service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRouter} from "expo-router";
+import {ThemedView} from "@/components/ThemedView";
+import {ThemedText} from "@/components/ThemedText";
 
 const LoginScreen = () => {
   useEffect(() => {
@@ -22,10 +24,10 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const navigation = useRouter();
   const handleLogin = () => {
-    alert("click")
     if (!nic || !password) {
       Alert.alert("Error", "Please fill out all fields!");
     } else {
+    alert("valid");
       userLogin({nic: nic, password: password}).then(async resp => {
         await AsyncStorage.setItem("token", resp.content.access_token);
         const user:IUser={
@@ -34,15 +36,15 @@ const LoginScreen = () => {
           name:resp.content.name || "Dev User"
         }
         await AsyncStorage.setItem("user", JSON.stringify(user));
-        navigation.push({pathname: "/pages/[id]", params: {nic: nic, id: nic}});
+        navigation.push({pathname: "/pages/[id]", params: {nic: user.nic, id: user.id,name:user.name}});
       }).catch(e=>{
         alert("Error 500");
       });
 
     }
   };
-  return (<View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+  return (<ThemedView style={styles.container}>
+      <ThemedText style={styles.title}>Login</ThemedText>
       <TextInput
         style={styles.input}
         placeholder="NIC"
@@ -57,8 +59,8 @@ const LoginScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Login" onPress={handleLogin}/>
-    </View>);
+      <Button title="Login"  onPress={handleLogin}/>
+    </ThemedView>);
 };
 
 const styles = StyleSheet.create({

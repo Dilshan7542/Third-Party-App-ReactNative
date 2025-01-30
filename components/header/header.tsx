@@ -1,8 +1,9 @@
 import {ThemedView} from "@/components/ThemedView";
-import {StyleSheet, TouchableOpacity} from "react-native";
+import {StyleSheet, TouchableOpacity, StatusBar, View} from "react-native";
 import {ThemedText} from "@/components/ThemedText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRouter} from "expo-router";
+
 interface Header {
   name:string
 }
@@ -13,9 +14,11 @@ const AppHeader=(header:Header)=>{
       navigation.push({pathname:"/pages/login"});
     });
   }
-  return (<ThemedView>
+  return (<ThemedView style={{paddingTop:StatusBar.currentHeight}} lightColor={"black"} darkColor={"white"}>
 <ThemedView style={style.container} lightColor={"black"} darkColor={"white"}>
-  <ThemedText>{header.name}</ThemedText>
+  <View style={{display:"flex",justifyContent:"center"}}>
+  <ThemedText lightColor={"white"} darkColor={"black"} style={{paddingLeft:10}}>{header.name}</ThemedText>
+  </View>
   <TouchableOpacity onPress={logOut}>
 <ThemedText lightColor={"white"} darkColor={"black"} style={{padding:10}}>LogOut</ThemedText>
   </TouchableOpacity>
@@ -29,9 +32,9 @@ container:{
   display:"flex",
   flexDirection:"row",
   justifyContent:"space-between",
-  flex:1,
   width:"100%",
-  height:30,
+  height:50,
+
 
 
 }
